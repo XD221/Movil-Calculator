@@ -13,8 +13,8 @@ import com.example.calculadora.paquete_Calculadora.CalculatorOperation;
 public class Calculadora extends AppCompatActivity {
 
     CalculatorOperation c = new CalculatorOperation();
-    double number = 0;
     Boolean show = false;
+
 
 
 
@@ -40,7 +40,7 @@ public class Calculadora extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 numCalculator.setText("");
-                number = 0;
+                c.clear();;
                 txt_numberCalculatorView.setText("");
             }
         });
@@ -174,8 +174,8 @@ public class Calculadora extends AppCompatActivity {
                 if((!numCalculator.getText().toString().equals("0")  || !numCalculator.getText().toString().equals("0.0")) && (txt_numberCalculatorView.getText().toString().length() > 0 || (numCalculator.getText().toString().length() > 0 && txt_numberCalculatorView.getText().toString().length() == 0))){
                     txt_numberCalculatorView.setText(numCalculator.getText().toString() + " " + s);
                     if (show) numCalculator.setText("");
-                    number = c.suma(number, ((numCalculator.getText().toString().length() > 0) ? Integer.parseInt(numCalculator.getText().toString()) : 0));
-                    numCalculator.setText("" + number);
+                    Double number = c.calculate(Double.parseDouble(numCalculator.getText().toString()), 's');
+                    numCalculator.setText("" + ((Integer.parseInt(Double.toString(number).replace(".",",").split(",")[1]) > 0) ? number : (Double.toString(number).replace(".",",").split(",")[0]))); //Double.toString(number).replace(".",",").split(",")[1]
                     show = true;
                 }
             }
@@ -186,13 +186,11 @@ public class Calculadora extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String s = "-";
-                if((!numCalculator.getText().toString().equals("0")  || !numCalculator.getText().toString().equals("0.0")) && numCalculator.getText().toString().length() > 0){
-                    if (show) numCalculator.setText("");
-                    number = c.resta(number, ((numCalculator.getText().toString().length() > 0) ? Integer.parseInt(numCalculator.getText().toString()) : 0));
-                    if (txt_numberCalculatorView.getText().toString().length() == 0) number = Math.abs(number);
-                    String aux = numCalculator.getText().toString();
-                    numCalculator.setText("" + number);
+                if((!numCalculator.getText().toString().equals("0")  || !numCalculator.getText().toString().equals("0.0")) && (txt_numberCalculatorView.getText().toString().length() > 0 || (numCalculator.getText().toString().length() > 0 && txt_numberCalculatorView.getText().toString().length() == 0))){
                     txt_numberCalculatorView.setText(numCalculator.getText().toString() + " " + s);
+                    if (show) numCalculator.setText("");
+                    Double number = c.calculate(Double.parseDouble(numCalculator.getText().toString()), 'r');
+                    numCalculator.setText("" + ((Integer.parseInt(Double.toString(number).replace(".",",").split(",")[1]) > 0) ? number : (Double.toString(number).replace(".",",").split(",")[0])));
                     show = true;
                 }
             }
@@ -204,14 +202,11 @@ public class Calculadora extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String s = "x";
-                if((!numCalculator.getText().toString().equals("0")  || !numCalculator.getText().toString().equals("0.0")) && numCalculator.getText().toString().length() > 0){
-                    if (show) numCalculator.setText("");
-
-                    number = c.multi(((number != 0) ? number : 1), ((numCalculator.getText().toString().length() > 0) ? Integer.parseInt(numCalculator.getText().toString()) : 0));
-                    if (txt_numberCalculatorView.getText().toString().length() == 0) number = Math.abs(number);
-                    String aux = numCalculator.getText().toString();
-                    numCalculator.setText("" + number);
+                if((!numCalculator.getText().toString().equals("0")  || !numCalculator.getText().toString().equals("0.0")) && (txt_numberCalculatorView.getText().toString().length() > 0 || (numCalculator.getText().toString().length() > 0 && txt_numberCalculatorView.getText().toString().length() == 0))){
                     txt_numberCalculatorView.setText(numCalculator.getText().toString() + " " + s);
+                    if (show) numCalculator.setText("");
+                    Double number = c.calculate(Double.parseDouble(numCalculator.getText().toString()), 'm');
+                    numCalculator.setText("" + ((Integer.parseInt(Double.toString(number).replace(".",",").split(",")[1]) > 0) ? number : (Double.toString(number).replace(".",",").split(",")[0])));
                     show = true;
                 }
             }
@@ -223,13 +218,11 @@ public class Calculadora extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String s = "÷";
-                if((!numCalculator.getText().toString().equals("0")  || !numCalculator.getText().toString().equals("0.0")) && numCalculator.getText().toString().length() > 0){
-                    if (show) numCalculator.setText("");
-                    number = c.division(((number != 0) ? number : 1), ((numCalculator.getText().toString().length() > 0) ? Integer.parseInt(numCalculator.getText().toString()) : 0));
-                    if (txt_numberCalculatorView.getText().toString().length() == 0) number = Math.abs(number);
-                    String aux = numCalculator.getText().toString();
-                    numCalculator.setText("" + number);
+                if((!numCalculator.getText().toString().equals("0")  || !numCalculator.getText().toString().equals("0.0")) && (txt_numberCalculatorView.getText().toString().length() > 0 || (numCalculator.getText().toString().length() > 0 && txt_numberCalculatorView.getText().toString().length() == 0))){
                     txt_numberCalculatorView.setText(numCalculator.getText().toString() + " " + s);
+                    if (show) numCalculator.setText("");
+                    Double number = c.calculate(Double.parseDouble(numCalculator.getText().toString()), 'd');
+                    numCalculator.setText("" + ((Integer.parseInt(Double.toString(number).replace(".",",").split(",")[1]) > 0) ? number : (Double.toString(number).replace(".",",").split(",")[0])));
                     show = true;
                 }
             }
