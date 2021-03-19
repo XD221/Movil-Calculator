@@ -1,4 +1,4 @@
-package com.example.calculadora;
+package com.example.calculadora.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,14 +7,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.calculadora.paquete_Calculadora.CalculatorOperation;
+import com.example.calculadora.R;
+import com.example.calculadora.model.CalculatorOperation;
 
 
 public class Calculadora extends AppCompatActivity {
 
-    CalculatorOperation c = new CalculatorOperation();
-    Boolean show = false;
-
+    private CalculatorOperation c = new CalculatorOperation();
+    private Boolean show = false;
+    private short sign = -1;
 
 
 
@@ -41,6 +42,7 @@ public class Calculadora extends AppCompatActivity {
             public void onClick(View v) {
                 numCalculator.setText("");
                 c.clear();;
+                sign = -1;
                 txt_numberCalculatorView.setText("");
             }
         });
@@ -161,7 +163,7 @@ public class Calculadora extends AppCompatActivity {
             public void onClick(View v) {
                 String n = ".";
                 if(numCalculator.getText().toString().indexOf('.') == -1){
-                    numCalculator.setText((numCalculator.length() > 0) ? numCalculator.getText().toString() + n : numCalculator.getText().toString());
+                    numCalculator.setText((numCalculator.length() > 0 && !show) ? numCalculator.getText().toString() + n : numCalculator.getText().toString());
                 }
             }
         });
@@ -170,12 +172,16 @@ public class Calculadora extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                if (show) {numCalculator.setText(""); show = false;}
+                if (numCalculator.getText().toString().length() == 0) return;
                 String s = "+";
                 if((!numCalculator.getText().toString().equals("0")  || !numCalculator.getText().toString().equals("0.0")) && (txt_numberCalculatorView.getText().toString().length() > 0 || (numCalculator.getText().toString().length() > 0 && txt_numberCalculatorView.getText().toString().length() == 0))){
-                    txt_numberCalculatorView.setText(numCalculator.getText().toString() + " " + s);
-                    if (show) numCalculator.setText("");
                     Double number = c.calculate(Double.parseDouble(numCalculator.getText().toString()), 's');
-                    numCalculator.setText("" + ((Integer.parseInt(Double.toString(number).replace(".",",").split(",")[1]) > 0) ? number : (Double.toString(number).replace(".",",").split(",")[0]))); //Double.toString(number).replace(".",",").split(",")[1]
+                    String[] aux = Double.toString(number).replace(".",",").split(",");
+                    String aux2 = ((Long.parseLong(aux[1]) > 0) ? Double.toString(number) : (aux[0]));
+                    numCalculator.setText("" + aux2);
+                    txt_numberCalculatorView.setText(aux2 + " " + s);
+                    sign = 0;
                     show = true;
                 }
             }
@@ -185,12 +191,16 @@ public class Calculadora extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                if (show) {numCalculator.setText(""); show = false;}
+                if (numCalculator.getText().toString().length() == 0) return;
                 String s = "-";
                 if((!numCalculator.getText().toString().equals("0")  || !numCalculator.getText().toString().equals("0.0")) && (txt_numberCalculatorView.getText().toString().length() > 0 || (numCalculator.getText().toString().length() > 0 && txt_numberCalculatorView.getText().toString().length() == 0))){
-                    txt_numberCalculatorView.setText(numCalculator.getText().toString() + " " + s);
-                    if (show) numCalculator.setText("");
                     Double number = c.calculate(Double.parseDouble(numCalculator.getText().toString()), 'r');
-                    numCalculator.setText("" + ((Integer.parseInt(Double.toString(number).replace(".",",").split(",")[1]) > 0) ? number : (Double.toString(number).replace(".",",").split(",")[0])));
+                    String[] aux = Double.toString(number).replace(".",",").split(",");
+                    String aux2 = ((Long.parseLong(aux[1]) > 0) ? Double.toString(number) : (aux[0]));
+                    numCalculator.setText("" + aux2);
+                    txt_numberCalculatorView.setText(aux2 + " " + s);
+                    sign = 1;
                     show = true;
                 }
             }
@@ -201,12 +211,16 @@ public class Calculadora extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                if (show) {numCalculator.setText(""); show = false;}
+                if (numCalculator.getText().toString().length() == 0) return;
                 String s = "x";
                 if((!numCalculator.getText().toString().equals("0")  || !numCalculator.getText().toString().equals("0.0")) && (txt_numberCalculatorView.getText().toString().length() > 0 || (numCalculator.getText().toString().length() > 0 && txt_numberCalculatorView.getText().toString().length() == 0))){
-                    txt_numberCalculatorView.setText(numCalculator.getText().toString() + " " + s);
-                    if (show) numCalculator.setText("");
                     Double number = c.calculate(Double.parseDouble(numCalculator.getText().toString()), 'm');
-                    numCalculator.setText("" + ((Integer.parseInt(Double.toString(number).replace(".",",").split(",")[1]) > 0) ? number : (Double.toString(number).replace(".",",").split(",")[0])));
+                    String[] aux = Double.toString(number).replace(".",",").split(",");
+                    String aux2 = ((Long.parseLong(aux[1]) > 0) ? Double.toString(number) : (aux[0]));
+                    numCalculator.setText("" + aux2);
+                    txt_numberCalculatorView.setText(aux2 + " " + s);
+                    sign = 2;
                     show = true;
                 }
             }
@@ -217,17 +231,61 @@ public class Calculadora extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                if (show) {numCalculator.setText(""); show = false;}
+                if (numCalculator.getText().toString().length() == 0) return;
                 String s = "÷";
                 if((!numCalculator.getText().toString().equals("0")  || !numCalculator.getText().toString().equals("0.0")) && (txt_numberCalculatorView.getText().toString().length() > 0 || (numCalculator.getText().toString().length() > 0 && txt_numberCalculatorView.getText().toString().length() == 0))){
-                    txt_numberCalculatorView.setText(numCalculator.getText().toString() + " " + s);
-                    if (show) numCalculator.setText("");
                     Double number = c.calculate(Double.parseDouble(numCalculator.getText().toString()), 'd');
-                    numCalculator.setText("" + ((Integer.parseInt(Double.toString(number).replace(".",",").split(",")[1]) > 0) ? number : (Double.toString(number).replace(".",",").split(",")[0])));
+                    String[] aux = Double.toString(number).replace(".",",").split(",");
+                    String aux2 = ((Long.parseLong(aux[1]) > 0) ? Double.toString(number) : (aux[0]));
+                    numCalculator.setText("" + aux2);
+                    txt_numberCalculatorView.setText(aux2 + " " + s);
+                    sign = 3;
                     show = true;
                 }
             }
         });
 
+        final Button BE = findViewById(R.id.btn_equal);
+        BE.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                char[] symbols = new char[]{'+','-', 'x', '÷'};
+                char a = (sign > -1) ? symbols[sign] : ' ';
+
+                String aux = (numCalculator.getText().toString().length() > 0) ? numCalculator.getText().toString() : "0";
+                if(a == symbols[0]){
+                    Double number = c.calculate(Double.parseDouble(aux), 's');
+                    String[] aux2 = Double.toString(number).replace(".",",").split(",");
+                    String aux3 = ((Long.parseLong(aux2[1]) > 0) ? Double.toString(number) : (aux2[0]));
+                    txt_numberCalculatorView.setText(aux3 + " " + a + " " + aux + " =");
+                    numCalculator.setText(aux3);
+                }else if(a == symbols[1]){
+                    Double number = c.calculate(Double.parseDouble(aux), 'r');
+                    String[] aux2 = Double.toString(number).replace(".",",").split(",");
+                    String aux3 = ((Long.parseLong(aux2[1]) > 0) ? Double.toString(number) : (aux2[0]));
+                    txt_numberCalculatorView.setText(aux3 + " " + a + " " + aux + " =");
+                    numCalculator.setText(aux3);
+                }else if(a == symbols[2]){
+                    Double number = c.calculate(Double.parseDouble(aux), 'm');
+                    String[] aux2 = Double.toString(number).replace(".",",").split(",");
+                    String aux3 = ((Long.parseLong(aux2[1]) > 0) ? Double.toString(number) : (aux2[0]));
+                    txt_numberCalculatorView.setText(aux3 + " " + a + " " + aux + " =");
+                    numCalculator.setText(aux3);
+                }else if(a == symbols[3]){
+                    Double number = c.calculate(Double.parseDouble(aux), 'd');
+                    String[] aux2 = Double.toString(number).replace(".",",").split(",");
+                    String aux3 = ((Long.parseLong(aux2[1]) > 0) ? Double.toString(number) : (aux2[0]));
+                    txt_numberCalculatorView.setText(aux3 + " " + a + " " + aux + " =");
+                    numCalculator.setText(aux3);
+                }else{
+                    txt_numberCalculatorView.setText(aux + " =");
+                    numCalculator.setText(aux);
+                }
+                show = true;
+            }
+        });
 
     }
 }

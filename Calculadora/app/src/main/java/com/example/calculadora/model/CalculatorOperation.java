@@ -1,4 +1,4 @@
-package com.example.calculadora.paquete_Calculadora;
+package com.example.calculadora.model;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
